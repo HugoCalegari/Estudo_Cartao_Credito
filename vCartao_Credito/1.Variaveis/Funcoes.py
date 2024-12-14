@@ -1,6 +1,9 @@
 # Carrega pacotes necessários
 import pandas as pd
 import numpy as np
+import pickle
+from sklearn.preprocessing import StandardScaler, OneHotEncoder, OrdinalEncoder, MinMaxScaler
+import os
 
 # Funções 
 
@@ -113,3 +116,80 @@ def IV_lista_variaveis(dados, var_target, lista_variaveis = ['object', 'category
     output = output.sort_values(by = 'IV', ascending = False)
 
     return(output)
+
+
+# Função que retorna os dados numéricos padronizados ou normalizados e o caminho onde o padronizador foi saldo em formato pickle
+
+def Padronizacao(dataframe, lista_variaveis_numericas, tipo = 'padro', path = os.getcwd(), nome_sclr = 'scaler.pkl'):
+    # dataframe é um pandas dataframe
+    # lista_variaveis_numericas é uma lista de variáveis numéricas
+    # tipo é uma string com o tipo de padronizador selecionado, pode ser a padronização ou narmalização dos dados
+    # nome_sclr é o nome com o qual o padronizador será salvo
+
+    if tipo == 'padro':
+        SC = StandardScaler()
+        SC.fit(dataframe[lista_variaveis_numericas])
+        dados_new = pd.DataFrame(SC.transform(dataframe[lista_variaveis_numericas]), columns=dataframe[lista_variaveis_numericas].columns)
+
+        # Salva o StandardScaler para aplicação em dados futuros
+        # path = os.getcwd()
+
+        path = path + '/' + nome_sclr
+        print('O StandardScaler será salvo no caminho:', path)
+        
+        with open(path,'wb') as f:
+            pickle.dump(SC, f)
+
+    elif tipo == 'norm':
+        MMS = MinMaxScaler()
+        MMS.fit(dataframe[lista_variaveis_numericas])
+        dados_new = pd.DataFrame(MMS.transform(dataframe[lista_variaveis_numericas]), columns=dataframe[lista_variaveis_numericas].columns)
+
+        # Salva o StandardScaler para aplicação em dados futuros
+        # path = os.getcwd()
+
+        path = path + '/' + nome_sclr
+        print('O MinMaxScaler será salvo no caminho:', path)
+        
+        with open(path,'wb') as f:
+            pickle.dump(MMS, f)
+        
+    return([dados_new, path])
+
+
+# Função que retorna os dados categóricos "dummificados" e o caminho onde foi salvo 
+
+def Aplica_OHE(dataframe, lista_categoricas, drop = None, tipo = 'default', path = os.getcwd(), nome_Enc = 'OHE.pkl'):
+    # dataframe é um pandas dataframe 
+    # lista_categoricas é uma lista de variáveis categóricas para aplicar o OHE
+    # drop especifica se retiramos uma das categorias (opções estão listadas aqui: https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.OneHotEncoder.html)
+    # tipo define se será usado o OHE ou pela criação de dummies ou pela criação de variáveis inteiras  
+    # path é o caminho onde será salvo o OneHotEncoder
+    
+    if tipo == 'default':
+        OHE = OneHotEncoder(handle_unknown = 'error', dtype = np.int32, drop=drop)
+        OHE.fit(dataframe[lista_categoricas])
+        dados_cat = pd.DataFrame(OHE.transform(dataframe[lista_categoricas]).toarray(), columns = OHE.get_feature_names_out())
+        
+        # Salva o OneHotEncoder para aplicação em dados futuros
+        # path = os.getcwd()
+        path = path + '/' + nome_Enc
+        print('O OneHotEncoder será salvo no caminho:', path)
+        
+        with open(path,'wb') as f:
+            pickle.dump(OHE, f)
+        
+    elif(tipo == 'ordinal'):
+        OHE_ordinal = OrdinalEncoder(handle_unknown='error')
+        OHE_ordinal.fit(dataframe[lista_categoricas])
+        dados_cat = pd.DataFrame(OHE_ordinal.transform(dataframe[lista_categoricas]), columns=OHE_ordinal.get_feature_names_out())
+
+        # Salva o OneHotEncoder para aplicação em dados futuros
+        # path = os.getcwd()
+        path = path + '/' + nome_Enc
+        print('O OneHotEncoderOrdinal será salvo no caminho:', path)
+        
+        with open(path,'wb') as f:
+            pickle.dump(OHE_ordinal, f)
+    
+    return([dados_cat, path])
