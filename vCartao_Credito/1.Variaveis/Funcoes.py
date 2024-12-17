@@ -159,12 +159,13 @@ def Padronizacao(dataframe, lista_variaveis_numericas, tipo = 'padro', path = os
 
 # Função que retorna os dados categóricos "dummificados" e o caminho onde foi salvo 
 
-def Aplica_OHE(dataframe, lista_categoricas, drop = None, tipo = 'default', path = os.getcwd(), nome_Enc = 'OHE.pkl'):
+def Aplica_Encoder(dataframe, lista_categoricas, drop = None, tipo = 'default', path = os.getcwd(), nome_Enc = 'OHE.pkl'):
     # dataframe é um pandas dataframe 
     # lista_categoricas é uma lista de variáveis categóricas para aplicar o OHE
     # drop especifica se retiramos uma das categorias (opções estão listadas aqui: https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.OneHotEncoder.html)
     # tipo define se será usado o OHE ou pela criação de dummies ou pela criação de variáveis inteiras  
     # path é o caminho onde será salvo o OneHotEncoder
+    # nome_Enc é o nome dado para o Encoder utilizado
     
     if tipo == 'default':
         OHE = OneHotEncoder(handle_unknown = 'error', dtype = np.int32, drop=drop)
