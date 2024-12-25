@@ -4,6 +4,8 @@ import numpy as np
 import pickle
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, OrdinalEncoder, MinMaxScaler
 import os
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Funções 
 
@@ -194,3 +196,32 @@ def Aplica_Encoder(dataframe, lista_categoricas, drop = None, tipo = 'default', 
             pickle.dump(OHE_ordinal, f)
     
     return([dados_cat, path])
+
+
+# Função que faz o gráfico da importância das variáveis
+
+def plot_feature_importance(importance, names, model_type):
+    # importance é a variável dos valores de importância: MODELO.feature_importances_
+    # names é a variável com os nomes para os respectivos valores de importância: MODELO.feature_names_in_
+    # model_type é a variável string com o nome do modelo
+
+    feature_importance = np.array(importance)
+    feature_names = np.array(names)
+
+    # Cria dicionário com nomes das variáveis e com os valores de importância
+    data={'feature_names':feature_names,'feature_importance':feature_importance}
+    fi_df = pd.DataFrame(data)
+
+    # Ordena de forma decrescente a importância das variáveis
+    fi_df.sort_values(by=['feature_importance'], ascending=False, inplace=True)
+
+    # Define o tamanho da imagem
+    plt.figure(figsize=(10,8))
+
+    # Gráfico 
+    sns.barplot(x=fi_df['feature_importance'], y=fi_df['feature_names'])
+    
+    # Rótulos
+    plt.title(model_type + ' FEATURE IMPORTANCE')
+    plt.xlabel('FEATURE IMPORTANCE')
+    plt.ylabel('FEATURE NAMES')
