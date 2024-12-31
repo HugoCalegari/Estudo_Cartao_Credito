@@ -23,3 +23,5 @@ De acordo com o time de negócio, se conseguirmos classificar o público que ser
 Pasta 0.Base: leitura e download da base de dados via API do Kaggle; análise descritiva e exploratória da base completa e, por fim, a divisão da base em treino, validação e teste.
 
 Pasta 1.Variaveis: com o uso da base de treino, estudos de variáveis correlacionadas e IV foram feitos; posteriormente, o pré-processamento foi feito e já aplicado nas bases de validação e teste.
+
+Pasta 2.Modelagem: estudo de modelos e escolha de um destes para a aplicação nas bases futuras.
