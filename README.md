@@ -27,7 +27,23 @@ De acordo com o time de negócio, se conseguirmos classificar o público que ser
 # Etapas de análise
 
 Pasta 0.Base: leitura e download da base de dados via API do Kaggle; análise descritiva e exploratória da base completa e, por fim, a divisão da base em treino, validação e teste.
+    
+    - Exploracao_Inicial: análise descritiva e exploratórias das variáveis. Avaliação de frequência para as variáveis categóricas, histograma para as variáveis numéricas, tabelas cruzadas entre as variáveis categóricas (incluindo a variável resposta), histograma para as variáveis numéricas agrupado por clientes churn e não churn, **criação de duas novas variáveis** (vfm := valor financeiro médio por transação nos últimos 12 meses, equivalente ao ticket médio por operação em 12 meses; pmcc := proporção média mensal utilizada de cartão de crédito) e gráficos de dispersão entre as variáveis numéricas.
+
+    - Treino_Val_Teste: separação entre bases de treino, validação e teste. 85% para treino, os 15% restantes foram divididos em 85% para validação e 15% para teste, ou seja, 12,75% para validação e 2,25% para teste.
 
 Pasta 1.Variaveis: com o uso da base de treino, estudos de variáveis correlacionadas e IV foram feitos; posteriormente, o pré-processamento foi feito e já aplicado nas bases de validação e teste.
 
+    - Variaveis_Potenciais: passagem por correlação de variáveis numéricas e análise de IV de todas as variáveis.
+
+    - Pré-processmanto: construção de dois pré-processamentos. O primeiro, com o uso da padronização e do One Hot Encoding e, o segundo, com o uso da padronização e do Ordinal Encoding. Toda a parte posterior de modelagem foi usada a primeira versão.
+
 Pasta 2.Modelagem: estudo de modelos e escolha de um destes para a aplicação nas bases futuras.
+
+    - Modelos_baselines: construção de modelos bases sem tunning de hyperparâmetros e log deles no mlflow. Os modelos considerados foram: Random Forest e XGBoost. Foram feitas análises de interpretabilidade, calibragem e análises de métricas.
+
+    - Hiperparametros & CV: procura de melhor conjunto de hiperparâmetros usando Bayesian Optimization, para os modelos destacados na etapa anterior. Uso da validação cruzada no momento da procura do melhor conjunto de hiperparâmetros e na etapa de avaliação de quais seriam os melhores pontos de corte. Nesta etapa, também foi usado o mlflow para o log das métricas de interesse.
+
+    - MLP: teste de uso de uma rede neural Multi-Layer_Perceptron para.
+
+    - Modelos_finais: aplicação dos melhores modelos anteriores na base de teste e as conclusões finais que poderíamos obter com a aplicação do modelo no cenário real/de negócio.
