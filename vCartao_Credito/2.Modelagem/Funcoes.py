@@ -290,3 +290,29 @@ def plot_histograma(variavel, df, label=None):
     
     elif label != None or label != 'Attrition_Flag':
         print("Nome de rótulo inválido")
+
+
+# Função que calcula o PSI de cada variável
+
+def PSI(dataframe_treino, dataframe_teste, variavel):
+    # dataframe_treino é um pandas dataframe da base de treino
+    # dataframe_teste é um pandas dataframe da base de teste
+    # variavel é o nome da variável para calcularmos o PSI -- string (nesse caso a variável deve ser categórica)
+    
+    # quantidade de observações em treino
+    qtd_treino = dataframe_treino.shape[0]
+    treino = pd.DataFrame(dataframe_treino[variavel].value_counts()/qtd_treino).sort_values(by=variavel).reset_index()
+    treino.columns = [variavel, 'count_treino']
+    
+    # quantidade de observações em teste
+    qtd_teste = dataframe_teste.shape[0]
+    teste = pd.DataFrame(dataframe_teste[variavel].value_counts()/qtd_teste).sort_values(by=variavel).reset_index()
+    teste.columns = [variavel, 'count_teste']
+    
+    df_result = treino.merge(teste, on = variavel, how = 'left')
+    df_result['Dif'] = df_result['count_treino'] - df_result['count_teste']
+    df_result['Log'] = np.log(df_result['count_treino']/df_result['count_teste'])
+    df_result['PSI_parcial'] = (df_result['Dif'])*df_result['Log']
+    df_result['PSI'] = sum(df_result['PSI_parcial'])
+
+    return(df_result)
