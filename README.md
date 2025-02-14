@@ -24,7 +24,7 @@ Além disso, dois pontos importantes foram destacados:
 
 De acordo com o time de negócio, se conseguirmos classificar o público que será churn todos os esforços serão direcionados para "salvá-los" e os atingiremos em sua totalidade, seja 100 clientes ou 2.000 clientes. Algumas estratégias: massificada ou segmentada (por exemplo, por faixa de renda e idade) serão pensadas para reter os clientes do cartão de crédito.
 
-# Etapas de análise
+# Etapas das análises
 
 Pasta 0.Base: leitura e download da base de dados via API do Kaggle; análise descritiva e exploratória da base completa e, por fim, a divisão da base em treino, validação e teste.
     
