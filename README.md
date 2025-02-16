@@ -47,3 +47,13 @@ Pasta 2.Modelagem: estudo de modelos e escolha de um destes para a aplicação n
     - MLP: teste de uso de uma rede neural Multi-Layer_Perceptron para.
 
     - Modelos_finais: aplicação dos melhores modelos anteriores na base de teste e as conclusões finais que poderíamos obter com a aplicação do modelo no cenário real/de negócio.
+
+# Escolha de um melhor modelo
+
+Dos modelos avaliados, aquele que melhor se adequou aos dados foi a Random Forest, com otimização de hiperparâmetros. As seguintes métricas foram encontradas na base de teste: Auc_Pr = 0.77; BS_Teste = 0.076; Log_Loss = 0.26; usando o melhor ponto de corte (0.31), F1_Score = 0.72, Precisao = 0.70 e Recall = 0.75. É importante salientar que a procura do modelo foi baseada no direcionamento mais preciso dos investimentos para a retenção do cliente, ou seja, não se tem interesse de aportar em clientes falso positivos e não se quer deixar de aportar em clientes que são falsos negativos.
+
+Não houve desvio das probabilidades obtidas na base de teste e na base de treino, ou seja, o KS das probabilidades preditas ficou baixo. Isso indica que a fonte geradora das probabilidades permanece a mesma.
+
+Com o uso do perfil de eficiência acumulada (CAP), por exemplo, olhar para os primeiros 200 primeiros clientes, significa olhar para os 150 que são altamente prováveis a ser churn. Para a base de teste, isso representa 13% de toda a base e 61% dos clientes maus!
+
+Depois das análises acima, percebeu-se que o Índice de Estabilidade Populacional (IEP ou PSI) das variáveis do modelo na base de treino e teste permaneceram estáveis.
